@@ -2,6 +2,8 @@ import * as crypto from "crypto";
 
 export function getSigningAlgorithm(shortName?: string): string {
   switch (shortName) {
+    case "rsa-sha256-mgf1":
+      return "http://www.w3.org/2007/05/xmldsig-more#sha256-rsa-MGF1";
     case "sha256":
       return "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
     case "sha512":

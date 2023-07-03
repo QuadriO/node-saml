@@ -1007,6 +1007,17 @@ class SAML {
       let confirmData: XMLOutput | null = null;
       let subjectConfirmations: XMLOutput[] | null = null;
       if (subject) {
+        const decryptedXml = await parseDomFromString(xml);
+        const encryptedSubjectXml = xpath.selectElements(decryptedXml, "//*[local-name()='EncryptedID']");
+        if(encryptedSubjectXml.length > 0 && this.options.decryptionPvk) {
+            const encryptedXml = encryptedSubjectXml.toString()
+            const decryptedXml = await decryptXml(encryptedXml, this.options.decryptionPvk);
+            const decryptedDoc = await parseDomFromString(decryptedXml);
+            subject[0] = await parseXml2JsFromString(decryptedDoc.toString());
+            if(subject[0].NameID) {
+                subject[0].NameID[0] = subject[0].NameID
+            }
+        }
         const nameID = subject[0].NameID;
         if (nameID && nameID[0]._) {
           profile.nameID = nameID[0]._;

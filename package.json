@@ -1,6 +1,6 @@
 {
   "name": "@quadrio/node-saml",
-  "version": "4.0.5",
+  "version": "4.0.7",
   "description": "SAML 2.0 implementation for Node.js",
   "keywords": [
     "saml",

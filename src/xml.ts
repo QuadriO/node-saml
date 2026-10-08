@@ -15,6 +15,11 @@ import {
 import * as algorithms from "./algorithms";
 import { assertRequired } from "./utility";
 
+// xml-crypto has no RSASSA-PSS support, so register our own implementation for signing and
+//   validating "rsa-sha256-MGF1" signatures.
+xmlCrypto.SignedXml.SignatureAlgorithms[algorithms.getSigningAlgorithm("rsa-sha256-MGF1")] =
+  algorithms.RsaSha256Mgf1SignatureAlgorithm as unknown as new () => xmlCrypto.SignatureAlgorithm;
+
 type SelectedValue = string | number | boolean | Node;
 
 const selectXPath = <T extends SelectedValue>(

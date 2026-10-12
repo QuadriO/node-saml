@@ -184,7 +184,10 @@ class SAML {
     }
     signer.update(querystring.stringify(samlMessageToSign));
     samlMessage.Signature = signer.sign(
-      keyInfoToPem(this.options.privateKey, "PRIVATE KEY"),
+      algorithms.getSigningKey(
+        this.options.signatureAlgorithm,
+        keyInfoToPem(this.options.privateKey, "PRIVATE KEY")
+      ),
       "base64"
     );
   }
